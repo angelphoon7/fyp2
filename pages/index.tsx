@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const bgPlaylist = ["/caregiver.mp4", "/feed.mp4", "/shirt.mp4"] as const;
+  const [bgIndex, setBgIndex] = useState<number>(0);
+
+  const handleVideoEnded = useCallback(() => {
+    setBgIndex((i) => (i + 1) % bgPlaylist.length);
+  }, [bgPlaylist.length]);
+
+  useEffect(() => {
+    // Play the newly active video automatically
+    const el = videoRefs.current[bgIndex];
+    if (el) {
+      el.play().catch(() => {});
+    }
+  }, [bgIndex]);
+
   const InputIcon = ({
     children,
   }: {
@@ -13,16 +29,23 @@ export default function Home() {
 
   return (
     <div className="relative h-dvh w-full flex-1 overflow-hidden bg-black">
-      {/* Background video sized for the upper area, fading seamlessly into the dark background */}
-      <video
-        className="absolute inset-x-0 top-0 h-[70dvh] w-full object-cover [object-position:center_bottom] [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"
-        src="/caregiver.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      />
+      {/* Background videos stacked for smooth crossfade transition */}
+      {bgPlaylist.map((src, index) => (
+        <video
+          key={src}
+          ref={(el) => {
+            videoRefs.current[index] = el;
+          }}
+          className={`absolute inset-x-0 top-0 h-[70dvh] w-full object-cover [object-position:center_bottom] transition-opacity duration-1000 [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] ${
+            index === bgIndex ? "opacity-100" : "opacity-0"
+          }`}
+          src={src}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={index === bgIndex ? handleVideoEnded : undefined}
+        />
+      ))}
 
       {/* Mask bottom-right corner to hide the video logo */}
       <div className="pointer-events-none absolute bottom-0 right-0 z-10 h-14 w-24 bg-black/0 sm:h-16 sm:w-28" />
