@@ -156,13 +156,13 @@ export default function Home() {
               <label className="flex items-center gap-2 text-white/80">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-white/30 bg-white/10 text-emerald-400 accent-emerald-400"
+                  className="h-4 w-4 rounded border-white/30 bg-white/10 text-white accent-zinc-500"
                 />
                 Remember me
               </label>
               <button
                 type="button"
-                className="font-medium text-emerald-300 hover:text-emerald-200"
+                className="font-medium text-gray-300 hover:text-white"
               >
                 Forgot Password?
               </button>
@@ -170,7 +170,7 @@ export default function Home() {
 
             <button
               type="button"
-              className="mt-2 h-11 w-full rounded-xl bg-gradient-to-r from-emerald-400 to-green-500 text-sm font-extrabold tracking-[0.24em] text-black shadow-[0_10px_28px_rgba(16,185,129,0.25)] hover:from-emerald-300 hover:to-green-400 active:from-emerald-500 active:to-green-600"
+              className="mt-2 h-11 w-full rounded-xl bg-white text-sm font-extrabold tracking-[0.24em] text-black shadow-[0_10px_28px_rgba(255,255,255,0.15)] transition-colors hover:bg-gray-100 active:bg-gray-200"
             >
               LOGIN
             </button>
@@ -198,7 +198,7 @@ export default function Home() {
               Don&apos;t have an account?{" "}
               <button
                 type="button"
-                className="font-semibold text-emerald-300 hover:text-emerald-200"
+                className="font-semibold text-gray-300 hover:text-white"
               >
                 Sign up
               </button>
